@@ -1,6 +1,5 @@
 # Bug Tracking System
 
----
 ### Entities:
 User
 1. Admin
