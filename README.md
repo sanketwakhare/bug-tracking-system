@@ -1,41 +1,51 @@
 # Bug Tracking System
 
 ### Entities:
-User
-1. Admin
-2. Developers
-3. Managers
-4. Testers
+
+#### User
+	Types
+	1. Admin
+	2. Developers
+	3. Managers
+	4. Testers
 
 	id | name | password | role
 
-Project
-id | name | description | startDate | closedDate | status
+#### Project
 
-Bug
-id | title | description | status | creationDate | closedDate | lastUpdatedDate | isDelete | project_id
----	
-### Relationships:
-User 1 -> M Project
-Project 1-> M User
-M <-> M
+	id | name | description | startDate | closedDate | status
 
-Mapping Table
-user_id | project_id
-u1 | pr01
-u2 | pr01
-u2 | pr02
+#### Bug
 
-pr01 -> [u1, u2, u3]
-pr02 -> [u2, u4]
+	id | title | description | status | creationDate | closedDate | lastUpdatedDate | isDelete | project_id
 
-Project 1 -> M Bug
-Bug 1 -> 1 Project
-1 <-> M
 ---
+
+### Relationships:
+
+	User 1 -> M Project
+	Project 1-> M User
+	M <-> M
+
+	Mapping Table
+	user_id | project_id
+	u1 | pr01
+	u2 | pr01
+	u2 | pr02
+
+	pr01 -> [u1, u2, u3]
+	pr02 -> [u2, u4]
+
+	Project 1 -> M Bug
+	Bug 1 -> 1 Project
+	1 <-> M
+
+---
+
 ### APIs:
 
 #### user:
+
 1. signup
 {
 name:
@@ -58,6 +68,7 @@ role:
 }
 
 #### project:
+
 1. create-project
 {
 name
@@ -93,6 +104,7 @@ project object
 }
 
 #### bugs:
+
 1. create_bug
 {
 description
