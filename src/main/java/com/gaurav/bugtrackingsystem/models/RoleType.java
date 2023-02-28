@@ -1,6 +1,6 @@
 package com.gaurav.bugtrackingsystem.models;
 
-public enum Role {
+public enum RoleType {
     ADMIN,
     MANAGER,
     DEVELOPER,
