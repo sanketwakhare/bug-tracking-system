@@ -1,7 +1,7 @@
 package com.gaurav.bugtrackingsystem.services;
 
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
-import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExist;
+import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExistException;
 import com.gaurav.bugtrackingsystem.models.RoleType;
 import com.gaurav.bugtrackingsystem.models.User;
 import com.gaurav.bugtrackingsystem.repositories.UserRepository;
@@ -20,18 +20,20 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User signUp(String name, String password) throws UserNameAlreadyExist, InvalidPasswordException {
+    public User signUp(String name, String password) throws UserNameAlreadyExistException, InvalidPasswordException {
         Optional<User> user = userRepository.findByName(name);
         if(user.isPresent()) {
             // if username already exist
-            throw new UserNameAlreadyExist(name);
+            throw new UserNameAlreadyExistException(name);
         }
         if(password.length() < 6) {
+            // invalid password
             throw new InvalidPasswordException(password);
         }
         User newUser = new User();
         newUser.setName(name);
         newUser.setPassword(password);
+        // default user is set to base user
         newUser.setRoleType(RoleType.BASE_USER);
         return userRepository.saveAndFlush(newUser);
     }

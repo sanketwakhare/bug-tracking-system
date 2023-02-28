@@ -21,8 +21,11 @@ public class Project extends BaseModel {
     private Long id;
 
     private String name;
+
     private String description;
+
     private Date startDate;
+
     private Date closedDate;
 
     @Enumerated(EnumType.STRING)

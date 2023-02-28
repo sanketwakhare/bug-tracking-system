@@ -3,7 +3,7 @@ package com.gaurav.bugtrackingsystem.controllers;
 import com.gaurav.bugtrackingsystem.dtos.UserSignUpRequestDto;
 import com.gaurav.bugtrackingsystem.dtos.UserSignUpResponseDto;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
-import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExist;
+import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExistException;
 import com.gaurav.bugtrackingsystem.models.User;
 import com.gaurav.bugtrackingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping(value = "signup")
-    public ResponseEntity<UserSignUpResponseDto> signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
+    public ResponseEntity<?> signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         ResponseEntity<UserSignUpResponseDto> response;
         UserSignUpResponseDto userSignUpResponseDto = new UserSignUpResponseDto();
         try {
@@ -36,10 +36,10 @@ public class UserController {
             userSignUpResponseDto.setId(user.getId());
             userSignUpResponseDto.setName(user.getName());
             response = new ResponseEntity<>(userSignUpResponseDto, HttpStatus.OK);
-        } catch (InvalidPasswordException | UserNameAlreadyExist e) {
-            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch(Exception exception) {
-            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (InvalidPasswordException | UserNameAlreadyExistException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
     }

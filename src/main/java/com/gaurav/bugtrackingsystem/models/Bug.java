@@ -18,8 +18,11 @@ public class Bug extends BaseModel {
     private Long id;
 
     private String title;
+
     private String description;
+
     private Date openDate;
+
     private Date closedDate;
 
     @ManyToOne
