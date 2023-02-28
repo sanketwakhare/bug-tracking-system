@@ -1,5 +1,6 @@
 package com.gaurav.bugtrackingsystem.controllers;
 
+import com.gaurav.bugtrackingsystem.dtos.ErrorResponse;
 import com.gaurav.bugtrackingsystem.dtos.UserSignUpRequestDto;
 import com.gaurav.bugtrackingsystem.dtos.UserSignUpResponseDto;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
@@ -37,9 +38,9 @@ public class UserController {
             userSignUpResponseDto.setName(user.getName());
             response = new ResponseEntity<>(userSignUpResponseDto, HttpStatus.OK);
         } catch (InvalidPasswordException | UserNameAlreadyExistException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch(Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
     }
