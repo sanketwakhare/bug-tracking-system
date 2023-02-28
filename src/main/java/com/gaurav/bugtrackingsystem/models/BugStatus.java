@@ -5,5 +5,6 @@ public enum BugStatus {
     CLOSED,
     IN_PROGRESS,
     NOT_STARTED,
-    IS_DELETED
+    IS_DELETED,
+    APPROVED
 }

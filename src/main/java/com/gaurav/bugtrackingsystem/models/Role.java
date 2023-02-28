@@ -4,5 +4,6 @@ public enum Role {
     ADMIN,
     MANAGER,
     DEVELOPER,
-    TESTER
+    TESTER,
+    BASE_USER
 }
