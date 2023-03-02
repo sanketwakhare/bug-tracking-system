@@ -1,5 +1,6 @@
 package com.gaurav.bugtrackingsystem.services;
 
+import com.gaurav.bugtrackingsystem.exceptions.InvalidCredentialsException;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
 import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExistException;
 import com.gaurav.bugtrackingsystem.models.RoleType;
@@ -40,5 +41,14 @@ public class UserService {
         }
         newUser.setRoleType(roleType);
         return userRepository.saveAndFlush(newUser);
+    }
+
+    public User login(String name, String password) throws InvalidCredentialsException {
+        Optional<User> dbUser = userRepository.findByNameAndPassword(name, password);
+        if(dbUser.isEmpty()) {
+            throw new InvalidCredentialsException();
+        }
+        // return existing user
+        return dbUser.get();
     }
 }

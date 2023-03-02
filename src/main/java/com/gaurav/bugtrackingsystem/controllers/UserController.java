@@ -1,8 +1,7 @@
 package com.gaurav.bugtrackingsystem.controllers;
 
-import com.gaurav.bugtrackingsystem.dtos.ErrorResponse;
-import com.gaurav.bugtrackingsystem.dtos.UserSignUpRequestDto;
-import com.gaurav.bugtrackingsystem.dtos.UserSignUpResponseDto;
+import com.gaurav.bugtrackingsystem.dtos.*;
+import com.gaurav.bugtrackingsystem.exceptions.InvalidCredentialsException;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
 import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExistException;
 import com.gaurav.bugtrackingsystem.models.RoleType;
@@ -41,6 +40,26 @@ public class UserController {
             userSignUpResponseDto.setRole(user.getRoleType());
             response = new ResponseEntity<>(userSignUpResponseDto, HttpStatus.OK);
         } catch (InvalidPasswordException | UserNameAlreadyExistException e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
+    }
+
+    @PostMapping(value = "login")
+    public ResponseEntity<?> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+        ResponseEntity<UserLoginResponseDto> response;
+        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto();
+        try {
+            String name = userLoginRequestDto.getName();
+            String password = userLoginRequestDto.getPassword();
+            User user = userService.login(name, password);
+            userLoginResponseDto.setId(user.getId());
+            userLoginResponseDto.setName(user.getName());
+            userLoginResponseDto.setRole(user.getRoleType());
+            response = new ResponseEntity<>(userLoginResponseDto, HttpStatus.OK);
+        } catch (InvalidCredentialsException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch(Exception e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
