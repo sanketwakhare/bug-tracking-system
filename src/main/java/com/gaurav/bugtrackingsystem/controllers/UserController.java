@@ -1,6 +1,7 @@
 package com.gaurav.bugtrackingsystem.controllers;
 
 import com.gaurav.bugtrackingsystem.dtos.*;
+import com.gaurav.bugtrackingsystem.dtos.user_dtos.*;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidCredentialsException;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
 import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExistException;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("user")

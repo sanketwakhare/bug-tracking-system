@@ -1,4 +1,4 @@
-package com.gaurav.bugtrackingsystem.dtos;
+package com.gaurav.bugtrackingsystem.dtos.user_dtos;
 
 import lombok.Getter;
 import lombok.Setter;
