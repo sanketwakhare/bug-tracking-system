@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 @Setter
 public class GetAllUsersResponseDto {
-    private List<User> users;
+    private List<UserDto> users;
 }

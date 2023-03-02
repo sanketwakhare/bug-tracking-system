@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -74,7 +75,9 @@ public class UserController {
             String roleType = getAllUsersRequestDto.getRole();
             List<User> users = userService.getAllUsers(roleType);
             GetAllUsersResponseDto getAllUsersResponseDto = new GetAllUsersResponseDto();
-            getAllUsersResponseDto.setUsers(users);
+            List<UserDto> userDtos = new ArrayList<>();
+            users.forEach(user -> userDtos.add(new UserDto(user.getId(), user.getName(), user.getRoleType())));
+            getAllUsersResponseDto.setUsers(userDtos);
             response = new ResponseEntity<>(getAllUsersResponseDto, HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
