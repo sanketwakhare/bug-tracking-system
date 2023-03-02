@@ -10,10 +10,10 @@ import com.gaurav.bugtrackingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("user")
@@ -61,6 +61,21 @@ public class UserController {
             response = new ResponseEntity<>(userLoginResponseDto, HttpStatus.OK);
         } catch (InvalidCredentialsException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return response;
+    }
+
+    @GetMapping("get-all")
+    public ResponseEntity<?> getAllUsers(@RequestBody GetAllUsersRequestDto getAllUsersRequestDto) {
+        ResponseEntity<GetAllUsersResponseDto> response;
+        GetAllUsersResponseDto getAllUsersResponseDto = new GetAllUsersResponseDto();
+        try {
+            String roleType = getAllUsersRequestDto.getRole();
+            List<User> users = userService.getAllUsers(roleType);
+            getAllUsersResponseDto.setUsers(users);
+            response = new ResponseEntity<>(getAllUsersResponseDto, HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

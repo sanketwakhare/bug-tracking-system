@@ -9,6 +9,7 @@ import com.gaurav.bugtrackingsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,5 +51,15 @@ public class UserService {
         }
         // return existing user
         return dbUser.get();
+    }
+
+    public List<User> getAllUsers(String roleType) {
+        List<User> dbUsers;
+        if(!Objects.isNull(roleType)) {
+            dbUsers = userRepository.findAllByRoleType(roleType);
+        } else {
+            dbUsers = userRepository.findAll();
+        }
+        return dbUsers;
     }
 }
