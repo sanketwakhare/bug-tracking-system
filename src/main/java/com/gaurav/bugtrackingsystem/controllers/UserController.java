@@ -5,6 +5,7 @@ import com.gaurav.bugtrackingsystem.dtos.UserSignUpRequestDto;
 import com.gaurav.bugtrackingsystem.dtos.UserSignUpResponseDto;
 import com.gaurav.bugtrackingsystem.exceptions.InvalidPasswordException;
 import com.gaurav.bugtrackingsystem.exceptions.UserNameAlreadyExistException;
+import com.gaurav.bugtrackingsystem.models.RoleType;
 import com.gaurav.bugtrackingsystem.models.User;
 import com.gaurav.bugtrackingsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,11 @@ public class UserController {
         try {
             String name = userSignUpRequestDto.getName();
             String password = userSignUpRequestDto.getPassword();
-            User user = userService.signUp(name, password);
+            RoleType roleType = userSignUpRequestDto.getRole();
+            User user = userService.signUp(name, password, roleType);
             userSignUpResponseDto.setId(user.getId());
             userSignUpResponseDto.setName(user.getName());
+            userSignUpResponseDto.setRole(user.getRoleType());
             response = new ResponseEntity<>(userSignUpResponseDto, HttpStatus.OK);
         } catch (InvalidPasswordException | UserNameAlreadyExistException e) {
             return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);

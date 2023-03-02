@@ -8,6 +8,7 @@ import com.gaurav.bugtrackingsystem.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User signUp(String name, String password) throws UserNameAlreadyExistException, InvalidPasswordException {
+    public User signUp(String name, String password, RoleType roleType) throws UserNameAlreadyExistException, InvalidPasswordException {
         Optional<User> user = userRepository.findByName(name);
         if(user.isPresent()) {
             // if username already exist
@@ -34,7 +35,10 @@ public class UserService {
         newUser.setName(name);
         newUser.setPassword(password);
         // default user is set to base user
-        newUser.setRoleType(RoleType.BASE_USER);
+        if(Objects.isNull(roleType)) {
+            roleType = RoleType.BASE_USER;
+        }
+        newUser.setRoleType(roleType);
         return userRepository.saveAndFlush(newUser);
     }
 }
