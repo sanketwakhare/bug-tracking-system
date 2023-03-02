@@ -29,12 +29,12 @@ public class UserController {
     @PostMapping(value = "signup")
     public ResponseEntity<?> signUp(@RequestBody UserSignUpRequestDto userSignUpRequestDto) {
         ResponseEntity<UserSignUpResponseDto> response;
-        UserSignUpResponseDto userSignUpResponseDto = new UserSignUpResponseDto();
         try {
             String name = userSignUpRequestDto.getName();
             String password = userSignUpRequestDto.getPassword();
             RoleType roleType = userSignUpRequestDto.getRole();
             User user = userService.signUp(name, password, roleType);
+            UserSignUpResponseDto userSignUpResponseDto = new UserSignUpResponseDto();
             userSignUpResponseDto.setId(user.getId());
             userSignUpResponseDto.setName(user.getName());
             userSignUpResponseDto.setRole(user.getRoleType());
@@ -50,11 +50,11 @@ public class UserController {
     @PostMapping(value = "login")
     public ResponseEntity<?> login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
         ResponseEntity<UserLoginResponseDto> response;
-        UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto();
         try {
             String name = userLoginRequestDto.getName();
             String password = userLoginRequestDto.getPassword();
             User user = userService.login(name, password);
+            UserLoginResponseDto userLoginResponseDto = new UserLoginResponseDto();
             userLoginResponseDto.setId(user.getId());
             userLoginResponseDto.setName(user.getName());
             userLoginResponseDto.setRole(user.getRoleType());
@@ -70,10 +70,10 @@ public class UserController {
     @GetMapping("get-all")
     public ResponseEntity<?> getAllUsers(@RequestBody GetAllUsersRequestDto getAllUsersRequestDto) {
         ResponseEntity<GetAllUsersResponseDto> response;
-        GetAllUsersResponseDto getAllUsersResponseDto = new GetAllUsersResponseDto();
         try {
             String roleType = getAllUsersRequestDto.getRole();
             List<User> users = userService.getAllUsers(roleType);
+            GetAllUsersResponseDto getAllUsersResponseDto = new GetAllUsersResponseDto();
             getAllUsersResponseDto.setUsers(users);
             response = new ResponseEntity<>(getAllUsersResponseDto, HttpStatus.OK);
         } catch(Exception e) {
